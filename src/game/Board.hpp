@@ -1,3 +1,5 @@
+#include <string>
+#include <iostream>
 
 enum class GamePhase{
     FIRST_PHASE,
@@ -11,6 +13,17 @@ enum class Field{
     BLACK
 };
 
+std::string getFieldName(Field field){
+    if(field == Field::EMPTY)
+        return "EMPTY";
+    else if(field == Field::WHITE)
+        return "WHITE";
+    else if(field == Field::BLACK)
+        return "BLACK";
+    else
+        return "ERROR";
+}
+
 class Board{
 public:
     Board(): phase{GamePhase::FIRST_PHASE}{
@@ -19,12 +32,31 @@ public:
         }
     }
 
-    GamePhase getPhase(){
+    GamePhase get_phase(){
         return phase;
     }
 
-    Field getField(int index){
+    Field get_field(int index){
         return fields.at(index);
+    }
+
+    bool place_pawn(int index, Field color){
+        if(color == Field::EMPTY){
+            std::cout << "ERROR: cannot place empty pawn!\n";
+            return false;
+        }
+        if(phase != GamePhase::FIRST_PHASE){
+            std::cout << "ERROR: cannot place pawns in other phase than first!\n";
+            return false;
+        }
+        if(index < 0 or index >= 21){
+            std::cout << "ERROR: index out of range!\n";
+            return false;
+        }   
+
+        auto& field = fields.at(index);
+        field = color;
+        return true;
     }
 
 private:
