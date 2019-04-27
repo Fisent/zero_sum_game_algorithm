@@ -3,6 +3,5 @@
 #include "game/Game.hpp"
 
 int main(){
-	Game g;
-	std::cout << "Hello zero sum game\n";
+    std::cout << "Hello zero sum game\n";
 }

@@ -1,0 +1,3 @@
+TODO list:
+1. Board implementation
+2. Simple AI implementation
