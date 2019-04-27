@@ -2,7 +2,7 @@
 #include <vector>
 #include <utility>
 
-#include "BoardTests.cpp"
+#include "BoardTests.hpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
