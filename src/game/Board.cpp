@@ -14,8 +14,40 @@ std::string getFieldName(Field field){
 }
 
 std::vector<Edge> all_edges{
+    //horizontal edges
+    Edge{0, 1}, Edge{1, 2},
+    Edge{3, 4}, Edge{4, 5},
+    Edge{6, 7}, Edge{7, 8},
+    Edge{9, 10}, Edge{10, 11},  Edge{12, 13}, Edge{13, 14},
+    Edge{15, 16}, Edge{16, 17},
+    Edge{18, 19}, Edge{19, 20},
+    Edge{21, 22}, Edge{22, 23},
 
+    //vertical edges
+    Edge{0, 9}, Edge{9, 21},
+    Edge{3, 10}, Edge{10, 18},
+    Edge{1, 4}, Edge{4, 7}, Edge{16, 19}, Edge{19, 22},
+    Edge{8, 12}, Edge{12, 17},
+    Edge{5, 13}, Edge{13, 20},
+    Edge{2, 14}, Edge{14, 23}
 };
+
+/*
+0-----1-----2
+|     |     |
+| 3---4---5 |
+| |   |   | |
+| | 6-7-8 | |
+| | |   | | |
+9-1011 12-1314
+| | |   | | |
+| |15-1617| |
+| |   |   | |
+| 18--19--20|
+|     |     |
+21----22---23
+
+*/
 
 Board::Board(): phase{GamePhase::FIRST_PHASE},
                 white_counter{0},
@@ -122,6 +154,15 @@ void Board::maybe_advance_phase(){
     }
 }
 
+bool Board::are_fields_connected(int first_field, int second_field){
+    bool result{false};
+    Edge temp_edge{first_field, second_field};
+    for(auto edge : edges){
+        result = result or temp_edge == edge; 
+    }
+    return result;
+}
+
 bool Board::make_move_checks(int start_index, int destination_index){
     if(not check_index(start_index) or not check_index(destination_index)){
         std::cout << __func__ << " WARNING: one of indexes is wrong!\n";
@@ -136,6 +177,10 @@ bool Board::make_move_checks(int start_index, int destination_index){
         std::cout << __func__ << " WARNING: cannot move to not empty field!\n";
         return false;
     }
+    if(not are_fields_connected(start_index, destination_index)){
+        std::cout << __func__ << " WARNING: move not made, because fields are not connected\n";
+    }
+
     return true;
 }
 
@@ -148,6 +193,10 @@ bool Board::make_move(int start_index, int destination_index){
         return false;
 
     //make move
+    Field field = fields.at(start_index);
+    fields.at(start_index) = Field::EMPTY;
+    fields.at(destination_index) = field;
+
 
     make_move_after();
     return true;

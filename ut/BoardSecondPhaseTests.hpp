@@ -96,16 +96,12 @@ const std::vector<Edge> expectedEdgesForField0{
 };
 
 bool is_in(Edge& e, std::vector<Edge> edges){
-    std::cout << "edge: " << e << '\n';
-    for(auto edge : edges){
-        std::cout << "    " << edge;
-    }
     return std::find(edges.begin(), edges.end(), e) != edges.end();
 }
 
 const std::vector<Edge> expectedEdgesForField9{
     Edge{9, 10},
-    Edge{1, 9},
+    Edge{0, 9},
     Edge{9, 21}
 };
 

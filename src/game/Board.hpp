@@ -41,6 +41,7 @@ private:
     void next_player();
     bool place_pawn_checks(int index, Field color);
     void place_pawn_after(Field color);
+    bool are_fields_connected(int first_index, int second_index);
     bool make_move_checks(int start_index, int destination_index);
     void make_move_after();
     void maybe_advance_phase();
