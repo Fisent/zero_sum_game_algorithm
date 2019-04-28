@@ -4,10 +4,10 @@ project(ZeroSumGame)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -pthread -O0")
 set(CMAKE_BUILD_TYPE Debug)
 
-add_library(game src/main.cpp src/game/Board.cpp)
+add_library(game src/main.cpp src/game/Board.cpp src/game/Edge.cpp)
 
 
-add_executable(ZeroSumGame src/main.cpp src/game/Board.cpp)
+add_executable(ZeroSumGame src/main.cpp src/game/Board.cpp src/game/Edge.cpp)
 target_link_libraries(ZeroSumGame game)
 
 #GTest

@@ -26,6 +26,11 @@ public:
 
     GamePhase get_phase() const;
     Field get_field(int index) const;
+    // get all edges for field
+    std::vector<Edge> get_edges_for_field(int field_index) const;
+    // get only those edges for field, to which move is possible
+    // (size of returned vector is 0 if field at field_index is empty)
+    std::vector<Edge> get_proper_edges_for_field(int field_index) const;
     // first phase
     bool place_pawn(int index, Field color);
     // second phase
@@ -41,6 +46,7 @@ private:
     void maybe_advance_phase();
 
     std::vector<Field> fields;
+    std::vector<Edge> edges;
     GamePhase phase;
     int white_counter;
     int black_counter;
@@ -50,4 +56,3 @@ private:
 std::string getFieldName(Field field);
 std::ostream & operator << (std::ostream& out, const Board& board);
 bool operator==(const Board& lhs, const Board& rhs);
-

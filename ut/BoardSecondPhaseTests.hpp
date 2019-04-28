@@ -89,3 +89,41 @@ TEST(BoardShould, make_possible_moves){
     }
     ASSERT_EQ(*b, *expectedBoardAfterPossibleMoves());
 }
+
+const std::vector<Edge> expectedEdgesForField0{
+    Edge{0, 1},
+    Edge{0, 9}
+};
+
+bool is_in(Edge& e, std::vector<Edge> edges){
+    std::cout << "edge: " << e << '\n';
+    for(auto edge : edges){
+        std::cout << "    " << edge;
+    }
+    return std::find(edges.begin(), edges.end(), e) != edges.end();
+}
+
+const std::vector<Edge> expectedEdgesForField9{
+    Edge{9, 10},
+    Edge{1, 9},
+    Edge{9, 21}
+};
+
+TEST(BoardShould, getEdgesForFields){
+    auto b = createSecondPhaseBoard();
+
+    auto edges_for_0 = b->get_edges_for_field(0);
+    for(auto edge : edges_for_0){
+        std::cout << "    " << edge << '\n';
+    }
+    ASSERT_EQ(edges_for_0.size(), expectedEdgesForField0.size());
+    for(auto edge : expectedEdgesForField0){
+        ASSERT_TRUE(is_in(edge, edges_for_0));
+    }
+
+    auto edges_for_9 = b->get_edges_for_field(9);
+    ASSERT_EQ(edges_for_9.size(), expectedEdgesForField9.size());
+    for(auto edge : expectedEdgesForField9){
+        ASSERT_TRUE(is_in(edge, edges_for_9));
+    }
+}

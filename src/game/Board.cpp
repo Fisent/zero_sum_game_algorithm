@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Board.hpp"
 
 std::string getFieldName(Field field){
@@ -11,11 +13,15 @@ std::string getFieldName(Field field){
         return "ERROR";
 }
 
+std::vector<Edge> all_edges{
+
+};
 
 Board::Board(): phase{GamePhase::FIRST_PHASE},
                 white_counter{0},
                 black_counter{0},
-                current_player{Field::WHITE}
+                current_player{Field::WHITE},
+                edges(all_edges)
 {
     for(int i = 0; i < NUMBER_OF_FIELDS; i++){
         fields.push_back(Field::EMPTY);
@@ -28,6 +34,16 @@ GamePhase Board::get_phase() const{
 
 Field Board::get_field(int index) const{
     return fields.at(index);
+}
+
+std::vector<Edge> Board::get_edges_for_field(int field_index) const{
+    std::vector<Edge> results{};
+    for(auto edge : edges){
+        if(edge.contains(field_index)){
+            results.push_back(edge);
+        }
+    }
+    return results;
 }
 
 void Board::next_player(){
