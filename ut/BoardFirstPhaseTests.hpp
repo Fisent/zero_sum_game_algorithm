@@ -1,3 +1,4 @@
+#include <memory>
 #include "gtest/gtest.h"
 #include "../src/game/Board.hpp"
 
@@ -27,7 +28,7 @@ TEST(BoardShould, notMakeMoveOutOfRange){
     ASSERT_FALSE(b.place_pawn(-1, Field::BLACK));
     ASSERT_FALSE(b.place_pawn(999, Field::BLACK));
 
-    for(int i = 0; i < 21; i++){
+    for(int i = 0; i < 24; i++){
         ASSERT_EQ(b.get_field(i), Field::EMPTY);
     }
 }
@@ -45,12 +46,11 @@ TEST(BoardShould, notMakeMoveOnOccupiedField){
     ASSERT_FALSE(b.place_pawn(1, Field::WHITE));
 }
 
-//TODO
-TEST(BoardShould, advancePhase){
+TEST(BoardShould, notGoToNextPhasePrematurely){
     Board b;
-    for(int i = 0; i < 18; i+=2){
-        b.place_pawn(i, Field::BLACK);
-        b.place_pawn(i+1, Field::WHITE);
+    for(int i = 0; i < 16; i+=2){
+        b.place_pawn(i, Field::WHITE);
+        b.place_pawn(i + 1, Field::BLACK);
     }
-    ASSERT_EQ(b.get_phase(), GamePhase::SECOND_PHASE);
+    ASSERT_EQ(b.get_phase(), GamePhase::FIRST_PHASE);
 }

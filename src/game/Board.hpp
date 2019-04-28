@@ -22,8 +22,8 @@ class Board{
 public:
     Board();
 
-    GamePhase get_phase();
-    Field get_field(int index);
+    GamePhase get_phase() const;
+    Field get_field(int index) const;
     bool place_pawn(int index, Field color);
 
 private:
@@ -36,3 +36,5 @@ private:
     int white_counter;
     int black_counter;
 };
+
+std::ostream & operator << (std::ostream& out, const Board& board);
