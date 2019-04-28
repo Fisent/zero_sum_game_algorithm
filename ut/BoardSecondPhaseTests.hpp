@@ -109,9 +109,6 @@ TEST(BoardShould, getEdgesForFields){
     auto b = createSecondPhaseBoard();
 
     auto edges_for_0 = b->get_edges_for_field(0);
-    for(auto edge : edges_for_0){
-        std::cout << "    " << edge << '\n';
-    }
     ASSERT_EQ(edges_for_0.size(), expectedEdgesForField0.size());
     for(auto edge : expectedEdgesForField0){
         ASSERT_TRUE(is_in(edge, edges_for_0));
@@ -122,4 +119,24 @@ TEST(BoardShould, getEdgesForFields){
     for(auto edge : expectedEdgesForField9){
         ASSERT_TRUE(is_in(edge, edges_for_9));
     }
+}
+
+TEST(BoardShould, getEdgesWithPossibleMovesForFields){
+    auto b = createSecondPhaseBoard();
+
+    auto moves_for_1 = b->get_possible_moves(1);
+    std::set<int> moves_for_1_set = std::set(moves_for_1.begin(), moves_for_1.end());
+    std::set<int> expected_moves_for_1{};
+
+    auto moves_for_0 = b->get_possible_moves(0);
+    std::set<int> moves_for_0_set = std::set(moves_for_0.begin(), moves_for_0.end());
+    std::set<int> expected_moves_for_0{1};
+
+    auto moves_for_4 = b->get_possible_moves(4);
+    std::set<int> moves_for_4_set = std::set(moves_for_4.begin(), moves_for_4.end());
+    std::set<int> expected_moves_for_4{1, 3, 5};
+
+    ASSERT_EQ(moves_for_1_set, expected_moves_for_1);
+    ASSERT_EQ(moves_for_0_set, expected_moves_for_0);
+    ASSERT_EQ(moves_for_4_set, expected_moves_for_4);
 }

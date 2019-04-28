@@ -23,6 +23,15 @@ public:
         return first_way or second_way;
     }
 
+    int get_other_end(int index){
+        if(index == first_field)
+            return second_field;
+        else if(index == second_field)
+            return first_field;
+        else
+            return -1;
+    }
+
     int first_field;
     int second_field;
 };

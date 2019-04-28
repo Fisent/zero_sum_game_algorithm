@@ -78,6 +78,22 @@ std::vector<Edge> Board::get_edges_for_field(int field_index) const{
     return results;
 }
 
+std::vector<int> Board::get_possible_moves(int field_index) const{
+    std::vector<int> results{};
+    if(get_field(field_index) == Field::EMPTY){
+        return {};
+    }
+
+    auto field_edges = get_edges_for_field(field_index);
+    for(auto edge : field_edges){
+        int other_end = edge.get_other_end(field_index);
+        if(get_field(other_end) == Field::EMPTY){
+            results.push_back(other_end);
+        }
+    }
+    return results;
+}
+
 void Board::next_player(){
     if(current_player == Field::WHITE)
         current_player = Field::BLACK;

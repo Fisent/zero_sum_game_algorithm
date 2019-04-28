@@ -28,9 +28,9 @@ public:
     Field get_field(int index) const;
     // get all edges for field
     std::vector<Edge> get_edges_for_field(int field_index) const;
-    // get only those edges for field, to which move is possible
+    // get only those fields, to which move is possible
     // (size of returned vector is 0 if field at field_index is empty)
-    std::vector<Edge> get_proper_edges_for_field(int field_index) const;
+    std::vector<int> get_possible_moves(int field_index) const;
     // first phase
     bool place_pawn(int index, Field color);
     // second phase

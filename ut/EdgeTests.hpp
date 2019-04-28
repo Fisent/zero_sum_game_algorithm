@@ -29,3 +29,10 @@ TEST(EdgeShould, checkIfContainsField){
     ASSERT_TRUE(e.contains(10));
     ASSERT_FALSE(e.contains(3));
 }
+
+TEST(EdgeShould, getOtherEnd){
+    Edge e{3, 7};
+    ASSERT_EQ(e.get_other_end(7), 3);
+    ASSERT_EQ(e.get_other_end(3), 7);
+    ASSERT_EQ(e.get_other_end(5), -1);   
+}
