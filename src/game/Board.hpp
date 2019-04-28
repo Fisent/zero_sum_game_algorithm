@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "Edge.hpp"
+
 enum class GamePhase{
     FIRST_PHASE,
     SECOND_PHASE,
@@ -16,17 +18,19 @@ enum class Field{
     BLACK
 };
 
-std::string getFieldName(Field field);
-
 class Board{
 public:
     Board();
 
     GamePhase get_phase() const;
     Field get_field(int index) const;
+    // first phase
     bool place_pawn(int index, Field color);
+    // second phase
+    bool make_move(int start_index, int destination_index);
 
 private:
+    void next_player();
     bool place_pawn_checks(int index, Field color);
     void place_pawn_after(Field color);
     void maybe_advance_phase();
@@ -35,6 +39,8 @@ private:
     GamePhase phase;
     int white_counter;
     int black_counter;
+    Field current_player;
 };
 
+std::string getFieldName(Field field);
 std::ostream & operator << (std::ostream& out, const Board& board);

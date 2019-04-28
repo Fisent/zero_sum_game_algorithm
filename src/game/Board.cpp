@@ -14,7 +14,8 @@ std::string getFieldName(Field field){
 
 Board::Board(): phase{GamePhase::FIRST_PHASE},
                 white_counter{0},
-                black_counter{0}
+                black_counter{0},
+                current_player{Field::WHITE}
 {
     for(int i = 0; i < 24; i++){
         fields.push_back(Field::EMPTY);
@@ -27,6 +28,15 @@ GamePhase Board::get_phase() const{
 
 Field Board::get_field(int index) const{
     return fields.at(index);
+}
+
+void Board::next_player(){
+    if(current_player == Field::WHITE)
+        current_player = Field::BLACK;
+    else if(current_player == Field::BLACK)
+        current_player = Field::WHITE;
+    else
+        std::cout << "CRITICAL ERROR: current player cant be empty";
 }
 
 bool Board::place_pawn_checks(int index, Field color){
@@ -47,6 +57,12 @@ bool Board::place_pawn_checks(int index, Field color){
 
     auto& field = fields.at(index);
 
+    if(current_player != color){
+        std::cout << "WARNING: this is not " << getFieldName(color) << " turn!\n";
+        std::cout << getFieldName(current_player) << " should move now!\n";
+        return false;
+    }
+
     if(field == Field::BLACK or field == Field::WHITE){
         std::cout << "WARNING: field is already occupied!\n";
         return false;
@@ -60,6 +76,7 @@ void Board::place_pawn_after(Field color){
     else if(color == Field::BLACK)
         black_counter++;
     maybe_advance_phase();
+    next_player();
 }
 
 bool Board::place_pawn(int index, Field color){

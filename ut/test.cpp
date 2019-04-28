@@ -4,6 +4,7 @@
 
 #include "BoardFirstPhaseTests.hpp"
 #include "BoardSecondPhaseTests.hpp"
+#include "EdgeTests.hpp"
 
 
 int main(int argc, char **argv) {
