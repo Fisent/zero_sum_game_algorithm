@@ -18,6 +18,8 @@ enum class Field{
     BLACK
 };
 
+const int NUMBER_OF_FIELDS{24};
+
 class Board{
 public:
     Board();
@@ -30,9 +32,12 @@ public:
     bool make_move(int start_index, int destination_index);
 
 private:
+    bool check_index(int index);
     void next_player();
     bool place_pawn_checks(int index, Field color);
     void place_pawn_after(Field color);
+    bool make_move_checks(int start_index, int destination_index);
+    void make_move_after();
     void maybe_advance_phase();
 
     std::vector<Field> fields;
@@ -44,3 +49,5 @@ private:
 
 std::string getFieldName(Field field);
 std::ostream & operator << (std::ostream& out, const Board& board);
+bool operator==(const Board& lhs, const Board& rhs);
+

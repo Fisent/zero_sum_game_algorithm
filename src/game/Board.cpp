@@ -17,7 +17,7 @@ Board::Board(): phase{GamePhase::FIRST_PHASE},
                 black_counter{0},
                 current_player{Field::WHITE}
 {
-    for(int i = 0; i < 24; i++){
+    for(int i = 0; i < NUMBER_OF_FIELDS; i++){
         fields.push_back(Field::EMPTY);
     }
 }
@@ -39,6 +39,10 @@ void Board::next_player(){
         std::cout << "CRITICAL ERROR: current player cant be empty";
 }
 
+bool Board::check_index(int index){
+    return index >=0 and index <= NUMBER_OF_FIELDS - 1;
+}
+
 bool Board::place_pawn_checks(int index, Field color){
     if(color == Field::EMPTY){
         std::cout << "WARNING: cannot place empty pawn!\n";
@@ -50,7 +54,7 @@ bool Board::place_pawn_checks(int index, Field color){
         return false;
     }
 
-    if(index < 0 or index >= 24){
+    if(not check_index(index)){
         std::cout << "WARNING: index out of range!\n";
         return false;
     }
@@ -102,6 +106,37 @@ void Board::maybe_advance_phase(){
     }
 }
 
+bool Board::make_move_checks(int start_index, int destination_index){
+    if(not check_index(start_index) or not check_index(destination_index)){
+        std::cout << __func__ << " WARNING: one of indexes is wrong!\n";
+        return false;
+    }
+    if(fields.at(start_index) == Field::EMPTY){
+        std::cout << __func__ << " WARNING: cannot move from empty field\n";
+        return false;
+    }
+
+    if(fields.at(destination_index) != Field::EMPTY){
+        std::cout << __func__ << " WARNING: cannot move to not empty field!\n";
+        return false;
+    }
+    return true;
+}
+
+void Board::make_move_after(){
+    next_player();
+}
+
+bool Board::make_move(int start_index, int destination_index){
+    if(not make_move_checks(start_index, destination_index))
+        return false;
+
+    //make move
+
+    make_move_after();
+    return true;
+}
+
 char get_fields_char(int index, const Board& board){
     Field field = board.get_field(index);
     if(field == Field::BLACK)
@@ -116,6 +151,8 @@ char get_fields_char(int index, const Board& board){
 
 std::ostream & operator << (std::ostream& out, const Board& board)
 {
+    out << '\n';
+
     out << get_fields_char(0, board);
     out << "-----";
     out << get_fields_char(1, board);
@@ -186,3 +223,13 @@ std::ostream & operator << (std::ostream& out, const Board& board)
 
     return out;
 }
+
+bool operator==(const Board& lhs, const Board& rhs)
+{
+    bool result{true};
+    for(int i = 0; i < NUMBER_OF_FIELDS; i++){
+        result = result and lhs.get_field(i) == rhs.get_field(i);
+    }
+    return result;
+}
+
