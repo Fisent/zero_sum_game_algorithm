@@ -1,23 +1,30 @@
-from xmlrpc.server import SimpleXMLRPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
+import tkinter as tk
 
-def hello():
-    return 'Hey! Hello World!'
+board = '''
+W - white pawn
+B - black pawn
+o - empty field
 
-def get_array():
-    return [1, 5, 10, 12, 15]
+B-----o-----B
+|     |     |
+| o---W---o |
+| |   |   | |
+| | B-B-W | |
+| | |   | | |
+W-B o   W-W-B
+| | |   | | |
+| | W-B-B | |
+| |   |   | |
+| o---W---o |
+|     |     |
+W-----B-----W
+'''
 
-# Restrict to a particular path.
-class RequestHandler(SimpleXMLRPCRequestHandler):
-    rpc_paths = ('/RPC2',)
+def show_window():
+    win = tk.Tk()
 
-# Create server
-with SimpleXMLRPCServer(('localhost', 8000),
-                        requestHandler=RequestHandler) as server:
-    server.register_introspection_functions()
+    win.title = "dupa"
 
-    server.register_function(hello)
-    server.register_function(get_array)
-
-    # Run the server's main loop
-    server.serve_forever()
+    for i in range(24):
+        tk.Button(win, text=str(i)).grid(row=i, column=i)
+    tk.mainloop()

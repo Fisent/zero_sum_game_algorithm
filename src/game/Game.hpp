@@ -5,7 +5,7 @@
     In constructor there will be passed two player objects:
     Player will be and abstract class, for which there will be two main specifications
     HumanPlayer and also AIPlayer.
-    Game class will ask proper player for move when it will be its move.
+    Game class will ask human player for move when it will be its move.
     In case of human player the person will have to move on GUI, and then it will be passed to the game with Move struct.
     AI player will calculate the best move and return it also in form of Move struct
 
