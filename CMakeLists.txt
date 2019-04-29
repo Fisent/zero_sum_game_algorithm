@@ -6,9 +6,10 @@ set(CMAKE_BUILD_TYPE Debug)
 
 add_library(game src/main.cpp src/game/Board.cpp src/game/Edge.cpp)
 
+find_package(XMLRPC REQUIRED c++)
 
 add_executable(ZeroSumGame src/main.cpp src/game/Board.cpp src/game/Edge.cpp)
-target_link_libraries(ZeroSumGame game)
+target_link_libraries(ZeroSumGame game xmlrpc_client++ xmlrpc_client xmlrpc++ xmlrpc_util++ xmlrpc  xmlrpc_xmlparse xmlrpc_xmltok xmlrpc_util pthread curl xmlrpc_packetsocket)
 
 #GTest
 enable_testing()
