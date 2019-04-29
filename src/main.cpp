@@ -15,6 +15,7 @@ int main(){
 
     xmlrpc_c::clientSimple myClient;
     xmlrpc_c::value result;
+    xmlrpc_c::value result_array;
     
     myClient.call(serverUrl, methodName, &result);
 
@@ -22,4 +23,11 @@ int main(){
 
     std::cout << "Result of RPC (hello): " << re << '\n';
 
+    myClient.call(serverUrl, "get_array", &result_array);
+
+    auto re_array = xmlrpc_c::value_array(result_array).vectorValueValue();
+
+    std::cout << "Printing received array:\n";
+    for(auto element : re_array)
+        std::cout << "   " << xmlrpc_c::value_int(element) << '\n';
 }
