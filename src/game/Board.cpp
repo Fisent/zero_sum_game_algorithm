@@ -68,6 +68,13 @@ Field Board::get_field(int index) const{
     return fields.at(index);
 }
 
+std::vector<int> Board::get_fields_for_gui() const{
+    std::vector<int> result{};
+    for(auto field : fields)
+        result.push_back(static_cast<int>(field));
+    return result;
+}
+
 std::vector<Edge> Board::get_edges_for_field(int field_index) const{
     std::vector<Edge> results{};
     for(auto edge : edges){

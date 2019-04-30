@@ -26,6 +26,7 @@ public:
 
     GamePhase get_phase() const;
     Field get_field(int index) const;
+    std::vector<int> get_fields_for_gui() const;
     // get all edges for field
     std::vector<Edge> get_edges_for_field(int field_index) const;
     // get only those fields, to which move is possible
