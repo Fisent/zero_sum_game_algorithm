@@ -14,7 +14,7 @@ std::string fields_to_string(const std::vector<int>& fields){
     return ss.str();
 }
 
-void xml_rpc(std::vector<int> fields){
+void xml_rpc(std::vector<int> fields, int phase){
     std::cout << "Hello xml rpc test\n";
 
     const std::string serverUrl("http://localhost:8000/RPC2");
@@ -24,7 +24,7 @@ void xml_rpc(std::vector<int> fields){
     xmlrpc_c::value result_array;
     
     std::string encoded_fields = fields_to_string(fields);
-    myClient.call(serverUrl, "show_window", "s" ,&result, encoded_fields.c_str());
+    myClient.call(serverUrl, "show_window", "si" ,&result, encoded_fields.c_str(), xmlrpc_c::value_int(phase));
 
     std::string re = xmlrpc_c::value_string(result);
 
