@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "game/Game.hpp"
 #include "game/Board.hpp"
+#include "game/Game.hpp"
 #include "game/XmlRpc.hpp"
 
 int main(){

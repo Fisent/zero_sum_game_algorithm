@@ -13,7 +13,7 @@ std::string getFieldName(Field field){
         return "ERROR";
 }
 
-std::vector<Edge> all_edges{
+const std::vector<Edge> all_edges{
     //horizontal edges
     Edge{0, 1}, Edge{1, 2},
     Edge{3, 4}, Edge{4, 5},
@@ -31,6 +31,8 @@ std::vector<Edge> all_edges{
     Edge{5, 13}, Edge{13, 20},
     Edge{2, 14}, Edge{14, 23}
 };
+
+
 
 /*
 0-----1-----2
@@ -99,6 +101,28 @@ std::vector<int> Board::get_possible_moves(int field_index) const{
         }
     }
     return results;
+}
+
+/*
+SCORING
+for every pawn - 10 points
+for two pawns in a row - 20 points
+for three pawns in a row(mlynek) - 50 points
+*/
+uint Board::evaluate_points(Field player){
+    int result{0};
+
+    //count pawns
+    int pawn_number{player == Field::WHITE ? white_counter : black_counter};
+    result += pawn_number * cost_map.at(Advantage::PAWN);
+
+    //check twos
+    //TODO
+
+    //check threes
+    //TODO
+
+    return result;
 }
 
 void Board::next_player(){

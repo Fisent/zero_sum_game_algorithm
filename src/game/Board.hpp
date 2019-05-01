@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <memory>
+#include <map>
 
 #include "Edge.hpp"
 
@@ -18,7 +20,28 @@ enum class Field{
     BLACK
 };
 
+enum class Advantage{
+    PAWN,
+    TWO_IN_A_ROW,
+    THREE_IN_A_ROW
+};
+
+struct Move{
+    Move(int first_field, int second_field, Field field_color):
+        first_field(first_field), second_field(second_field), field_color(field_color){}
+
+    int first_field;
+    int second_field;
+    Field field_color;
+};
+
 const int NUMBER_OF_FIELDS{24};
+
+const std::map<Advantage, int> cost_map{
+    {Advantage::PAWN, 10},
+    {Advantage::TWO_IN_A_ROW, 20},
+    {Advantage::THREE_IN_A_ROW, 50}
+};
 
 class Board{
 public:
@@ -36,6 +59,7 @@ public:
     bool place_pawn(int index, Field color);
     // second phase
     bool make_move(int start_index, int destination_index);
+    uint evaluate_points(Field player);
 
 private:
     bool check_index(int index);
@@ -46,6 +70,7 @@ private:
     bool make_move_checks(int start_index, int destination_index);
     void make_move_after();
     void maybe_advance_phase();
+    void evaluate_scores();
 
     std::vector<Field> fields;
     std::vector<Edge> edges;

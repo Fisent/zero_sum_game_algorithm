@@ -23,10 +23,12 @@ W-----B-----W
 
 */
 
-std::vector<int> white_indexes{4, 8, 9, 12, 13, 15, 19, 21, 23};
-std::vector<int> black_indexes{0, 2, 6, 7, 10, 14, 16, 17, 22};
+namespace {
 
-std::vector<std::pair<int, int>> possible_moves{{0, 1}, {4, 5}, {10, 3}, {13, 20}};
+const std::vector<int> white_indexes{4, 8, 9, 12, 13, 15, 19, 21, 23};
+const std::vector<int> black_indexes{0, 2, 6, 7, 10, 14, 16, 17, 22};
+
+const std::vector<std::pair<int, int>> possible_moves{{0, 1}, {4, 5}, {10, 3}, {13, 20}};
 
 std::unique_ptr<Board> createSecondPhaseBoard(){
     auto b = std::make_unique<Board>();
@@ -66,6 +68,8 @@ std::unique_ptr<Board> expectedBoardAfterPossibleMoves(){
     }
     return std::move(b);
 }
+
+} // namespace
 
 TEST(BoardShould, advancePhase){
     auto b = createSecondPhaseBoard();

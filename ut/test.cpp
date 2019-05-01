@@ -5,7 +5,7 @@
 #include "BoardFirstPhaseTests.hpp"
 #include "BoardSecondPhaseTests.hpp"
 #include "EdgeTests.hpp"
-
+#include "BoardEvaluationTests.hpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

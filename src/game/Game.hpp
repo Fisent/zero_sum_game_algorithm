@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+
+#include "HumanPlayer.hpp"
 /*
     I think that this class will control the flow of the whole game.
     In constructor there will be passed two player objects:
@@ -16,5 +19,5 @@
     Python GUI will be the localhost server to which c++ app will send messages with move inqury and it will return the move
 */
 class Game{
-
+    Game(std::shared_ptr<Player> player_one, std::shared_ptr<Player> player_two){}
 };

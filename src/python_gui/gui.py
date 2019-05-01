@@ -74,7 +74,6 @@ def show_window(fields, phase):
     win.title = "Nine men's morris"
 
     for i in range(24):
-        # buttons.append()
         buttons.append(create_button(fields[i], FIELDS_POSITIONS[i], win, callback, i))
 
     tk.mainloop()
