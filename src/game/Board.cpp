@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 
 #include "Board.hpp"
 
@@ -32,7 +33,24 @@ const std::vector<Edge> all_edges{
     Edge{2, 14}, Edge{14, 23}
 };
 
-
+const std::vector<std::array<int, 3>> rows_cols_to_check{
+    {0, 1, 2},
+    {3, 4, 5},
+    {6, 7, 8},
+    {9, 10, 11},
+    {12, 13, 14},
+    {15, 16, 17},
+    {18, 19, 20},
+    {21, 22, 23},
+    {0, 9, 21},
+    {3, 10, 18},
+    {6, 11, 15},
+    {1, 4, 7},
+    {16, 19, 22},
+    {8, 12, 17},
+    {5, 13, 20},
+    {2, 14, 23}
+};
 
 /*
 0-----1-----2
@@ -117,7 +135,18 @@ uint Board::evaluate_points(Field player){
     result += pawn_number * cost_map.at(Advantage::PAWN);
 
     //check twos
-    //TODO
+    int twos{0};
+    for(auto row_col : rows_cols_to_check){
+        int counter{0};
+        for(int i = 0; i < 3; i++){
+            if(fields.at(row_col.at(i)) == player)
+                counter++;
+        }
+        if(counter == 2)
+            result += cost_map.at(Advantage::TWO_IN_A_ROW);
+        else if(counter == 3)
+            result += cost_map.at(Advantage::THREE_IN_A_ROW);
+    }
 
     //check threes
     //TODO

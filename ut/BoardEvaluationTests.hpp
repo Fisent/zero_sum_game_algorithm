@@ -6,12 +6,12 @@
 
 namespace e{
 
-/* SECOND BOARD
-o-----o-----o
+/* FIRST BOARD
+w-----o-----B
 |     |     |
 | o---o---o |
 | |   |   | |
-| | o-o-o | |
+| | o-o-o | 
 | | |   | | |
 o-o-o   o-o-o
 | | |   | | |
@@ -19,7 +19,7 @@ o-o-o   o-o-o
 | |   |   | |
 | o---o---o |
 |     |     |
-o-----o-----o*/
+o-----o-----W*/
 std::unique_ptr<Board> create_first_board(){
     auto b = std::make_unique<Board>();
     b->place_pawn(0, Field::WHITE);
@@ -55,8 +55,41 @@ std::unique_ptr<Board> create_second_board(){
     }
     return std::move(b);
 }
-const int EXPECTED_WHITE_POINTS_SECOND_BOARD{90};
-const int EXPECTED_BLACK_POINTS_SECOND_BOARD{90};
+const int EXPECTED_WHITE_POINTS_SECOND_BOARD{cost_map.at(Advantage::PAWN) * 9 + 
+                                             cost_map.at(Advantage::TWO_IN_A_ROW) * 4};
+const int EXPECTED_BLACK_POINTS_SECOND_BOARD{cost_map.at(Advantage::PAWN) * 9 +
+                                             cost_map.at(Advantage::TWO_IN_A_ROW) * 5};
+
+/* THIRD BOARD
+B-----B-----B
+|     |     |
+| o---W---o |
+| |   |   | |
+| | B-B-W | |
+| | |   | | |
+W-B o   W-W-B
+| | |   | | |
+| | W-B-B | |
+| |   |   | |
+| o---W---o |
+|     |     |
+W-----W-----W*/
+const std::vector<int> white_indexes_third{8, 9, 12, 13, 15, 19, 21, 22, 23};
+const std::vector<int> black_indexes_third{0, 1, 2, 6, 7, 14, 16, 17, 20};
+std::unique_ptr<Board> create_third_board(){
+    auto b = std::make_unique<Board>();
+    for(int i = 0; i < white_indexes_third.size(); i++){
+        b->place_pawn(white_indexes_third.at(i), Field::WHITE);
+        b->place_pawn(black_indexes_third.at(i), Field::BLACK);
+    }
+    return std::move(b);
+}
+const int EXPECTED_WHITE_POINTS_THIRD_BOARD{cost_map.at(Advantage::PAWN) * 9 + 
+                                            cost_map.at(Advantage::TWO_IN_A_ROW) * 4 + 
+                                            cost_map.at(Advantage::THREE_IN_A_ROW)};
+const int EXPECTED_BLACK_POINTS_THIRD_BOARD{cost_map.at(Advantage::PAWN) * 9 +
+                                            cost_map.at(Advantage::TWO_IN_A_ROW) * 4 +
+                                            cost_map.at(Advantage::THREE_IN_A_ROW)};
 
 } // namespace
 
@@ -64,4 +97,17 @@ TEST(BoardShouldEvaluate, FirstBoard){
     auto b = e::create_first_board();
     ASSERT_EQ(e::EXPECTED_WHITE_POINTS_FIRST_BOARD, b->evaluate_points(Field::WHITE));
     ASSERT_EQ(e::EXPECTED_BLACK_POINTS_FIRST_BOARD, b->evaluate_points(Field::BLACK));
+}
+
+TEST(BoardShouldEvaluate, SecondBoard){
+    auto b = e::create_second_board();
+    ASSERT_EQ(e::EXPECTED_WHITE_POINTS_SECOND_BOARD, b->evaluate_points(Field::WHITE));
+    ASSERT_EQ(e::EXPECTED_BLACK_POINTS_SECOND_BOARD, b->evaluate_points(Field::BLACK));
+}
+
+TEST(BoardShouldEvaluate, ThirdBoard){
+    auto b = e::create_third_board();
+    std::cout << *b << '\n';
+    ASSERT_EQ(e::EXPECTED_WHITE_POINTS_THIRD_BOARD, b->evaluate_points(Field::WHITE));
+    ASSERT_EQ(e::EXPECTED_BLACK_POINTS_THIRD_BOARD, b->evaluate_points(Field::BLACK));
 }
