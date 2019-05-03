@@ -168,8 +168,9 @@ void Board::after_move_check_threes(Field player_color){
             if(fields.at(row_col.at(i)) == player_color)
                 counter++;
         }
-        if(counter == 3)
+        if(counter == 3){
             is_it_time_to_take = true;
+        }
     }
 }
 
@@ -178,18 +179,21 @@ bool Board::check_index(int index){
 }
 
 bool Board::place_pawn_checks(int index, Field color){
+    if(is_it_time_to_take){
+        std::cout << __func__ << " WARNING: it is time to take, not place pawn\n";
+    }
     if(color == Field::EMPTY){
-        std::cout << "WARNING: cannot place empty pawn!\n";
+        std::cout << __func__ << "WARNING: cannot place empty pawn!\n";
         return false;
     }
 
     if(phase != GamePhase::FIRST_PHASE){
-        std::cout << "WARNING: cannot place pawns in other phase than first!\n";
+        std::cout << __func__ << " WARNING: cannot place pawns in other phase than first!\n";
         return false;
     }
 
     if(not check_index(index)){
-        std::cout << "WARNING: index out of range!\n";
+        std::cout << __func__ << " WARNING: index out of range!\n";
         return false;
     }
 
@@ -253,6 +257,10 @@ bool Board::are_fields_connected(int first_field, int second_field){
 }
 
 bool Board::make_move_checks(int start_index, int destination_index, Field color){
+    if(is_it_time_to_take){
+        std::cout << __func__ << " WARNING: it is time to take, not for normal move\n";
+        return false;
+    }
     if(not check_index(start_index) or not check_index(destination_index)){
         std::cout << __func__ << " WARNING: one of indexes is wrong!\n";
         return false;
@@ -268,6 +276,7 @@ bool Board::make_move_checks(int start_index, int destination_index, Field color
     }
     if(not are_fields_connected(start_index, destination_index)){
         std::cout << __func__ << " WARNING: move not made, because fields are not connected\n";
+        return false;
     }
 
     return true;
@@ -295,7 +304,27 @@ bool Board::make_move(int start_index, int destination_index){
 }
 
 bool Board::take_pawn_checks(int index, Field color){
-    return false;
+    if(not is_it_time_to_take){
+        std::cout << __func__ << " WARNING: it isn't time to take\n";
+        return false;
+    }
+    if(not check_index(index)){
+        std::cout << __func__ << " WARNING: index is wrong\n";
+        return false;
+    }
+    Field field_color = fields.at(index);
+
+    if(field_color == Field::EMPTY){
+        std::cout << __func__ << " WARNING cannot take from empty field\n";
+        return false;
+    }
+
+    if(field_color != color){
+        std::cout << __func__ << " WARNING: this player cannot take from this field\n";
+        return false;
+    }
+
+    return true;
 }
 
 void Board::take_pawn_after(Field color){
@@ -307,13 +336,15 @@ void Board::take_pawn_after(Field color){
 bool Board::take_pawn(int index){
     Field color_of_taking_player = current_player;
 
-    take_pawn_checks(index, color_of_taking_player);
+    if(not take_pawn_checks(index, color_of_taking_player)){
+        return false;
+    }
 
     fields.at(index) = Field::EMPTY;
 
     take_pawn_after(color_of_taking_player);
 
-    return false;
+    return true;
 }
 
 char get_fields_char(int index, const Board& board){

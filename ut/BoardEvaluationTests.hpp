@@ -105,6 +105,7 @@ TEST(BoardShouldEvaluate, SecondBoard){
 
 TEST(BoardShouldEvaluate, ThirdBoard){
     auto b = create_third_board();
+    std::cout << "third board asserts\n";
     ASSERT_EQ(EXPECTED_WHITE_POINTS_THIRD_BOARD, b->evaluate_points(Field::WHITE));
     ASSERT_EQ(EXPECTED_BLACK_POINTS_THIRD_BOARD, b->evaluate_points(Field::BLACK));
 }

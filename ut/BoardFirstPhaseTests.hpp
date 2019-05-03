@@ -2,28 +2,28 @@
 #include "gtest/gtest.h"
 #include "../src/game/Board.hpp"
 
-TEST(BoardShould, beCreated){
+TEST(BoardPhase1Should, beCreated){
     Board b;
 }
 
-TEST(BoardShould, hasFirstPhaseOnCreation){
+TEST(BoardPhase1Should, hasFirstPhaseOnCreation){
     Board b;
     ASSERT_EQ(b.get_phase(), GamePhase::FIRST_PHASE);
 }
 
-TEST(BoardShould, have21EmptyFieldsOnCreation){
+TEST(BoardPhase1Should, have21EmptyFieldsOnCreation){
     Board b;
     ASSERT_EQ(b.get_field(0), Field::EMPTY);
     ASSERT_EQ(b.get_field(20), Field::EMPTY);
 }
 
-TEST(BoardShould, makeProperMove){
+TEST(BoardPhase1Should, makeProperMove){
     Board b;
     ASSERT_TRUE(b.place_pawn(0));
     ASSERT_EQ(b.get_field(0), Field::WHITE);
 }
 
-TEST(BoardShould, notMakeMoveOutOfRange){
+TEST(BoardPhase1Should, notMakeMoveOutOfRange){
     Board b;
     ASSERT_FALSE(b.place_pawn(-1));
     ASSERT_FALSE(b.place_pawn(999));

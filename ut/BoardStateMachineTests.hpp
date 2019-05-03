@@ -36,7 +36,7 @@ TEST(BoardStateMachineShould, notMakeRegularMoveWhenItsTimeToTake){
     auto b = create_second_board();
 
     b->place_pawn(22);
-    ASSERT_FALSE(b->place_pawn(0));
+    ASSERT_TRUE(b->place_pawn(0));
 }
 
 TEST(BoardStateMachineShould, notTakeWhenItsTimeForNormalMove){
@@ -56,7 +56,7 @@ TEST(BoardStateMachineShould, notMakeTakeMoveAfterThreeInARowButForWrongPlayer){
     auto b = create_second_board();
 
     b->place_pawn(22);
-    ASSERT_FALSE(b->take_pawn(2));
+    ASSERT_FALSE(b->take_pawn(4));
 }
 
 } // namespace state_machine_test

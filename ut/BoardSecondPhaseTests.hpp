@@ -144,3 +144,9 @@ TEST(BoardPhase2Should, getEdgesWithPossibleMovesForFields){
     ASSERT_EQ(moves_for_0_set, expected_moves_for_0);
     ASSERT_EQ(moves_for_4_set, expected_moves_for_4);
 }
+
+TEST(BoardPhase2Should, notMakeMoveBeetweenNotConnectedFields){
+    auto b = createSecondPhaseBoard();
+
+    ASSERT_FALSE(b->make_move(0, 3));
+}
