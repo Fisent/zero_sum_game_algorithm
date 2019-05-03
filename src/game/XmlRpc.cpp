@@ -28,7 +28,7 @@ void xml_rpc(std::vector<int> fields, int phase){
 
     std::string re = xmlrpc_c::value_string(result);
 
-    std::cout << "Result of RPC (hello): " << re << '\n';
+    std::cout << "Result of RPC (show_window): " << re << '\n';
 
     myClient.call(serverUrl, "get_array", &result_array);
 

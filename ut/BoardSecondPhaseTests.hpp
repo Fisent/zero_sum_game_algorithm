@@ -33,8 +33,8 @@ const std::vector<std::pair<int, int>> possible_moves{{0, 1}, {4, 5}, {10, 3}, {
 std::unique_ptr<Board> createSecondPhaseBoard(){
     auto b = std::make_unique<Board>();
     for(int i = 0; i < 9; i++){
-        b->place_pawn(white_indexes.at(i), Field::WHITE);
-        b->place_pawn(black_indexes.at(i), Field::BLACK);
+        b->place_pawn(white_indexes.at(i));
+        b->place_pawn(black_indexes.at(i));
     }
     return std::move(b);
 }
@@ -63,8 +63,8 @@ std::vector<int> black_indexes_after_possible_moves{1, 2, 3, 6, 7, 14, 16, 17, 2
 std::unique_ptr<Board> expectedBoardAfterPossibleMoves(){
     auto b = std::make_unique<Board>();
     for(int i = 0; i < 9; i++){
-        b->place_pawn(white_indexes_after_possible_moves.at(i), Field::WHITE);
-        b->place_pawn(black_indexes_after_possible_moves.at(i), Field::BLACK);
+        b->place_pawn(white_indexes_after_possible_moves.at(i));
+        b->place_pawn(black_indexes_after_possible_moves.at(i));
     }
     return std::move(b);
 }
@@ -109,7 +109,7 @@ const std::vector<Edge> expectedEdgesForField9{
     Edge{9, 21}
 };
 
-TEST(BoardShould, getEdgesForFields){
+TEST(BoardPhase2Should, getEdgesForFields){
     auto b = createSecondPhaseBoard();
 
     auto edges_for_0 = b->get_edges_for_field(0);
@@ -125,7 +125,7 @@ TEST(BoardShould, getEdgesForFields){
     }
 }
 
-TEST(BoardShould, getEdgesWithPossibleMovesForFields){
+TEST(BoardPhase2Should, getEdgesWithPossibleMovesForFields){
     auto b = createSecondPhaseBoard();
 
     auto moves_for_1 = b->get_possible_moves(1);

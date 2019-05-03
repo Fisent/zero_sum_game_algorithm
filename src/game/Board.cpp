@@ -73,7 +73,8 @@ Board::Board(): phase{GamePhase::FIRST_PHASE},
                 white_counter{0},
                 black_counter{0},
                 current_player{Field::WHITE},
-                edges(all_edges)
+                edges(all_edges),
+                is_it_time_to_take{false}
 {
     for(int i = 0; i < NUMBER_OF_FIELDS; i++){
         fields.push_back(Field::EMPTY);
@@ -127,19 +128,19 @@ for every pawn - 10 points
 for two pawns in a row - 20 points
 for three pawns in a row(mlynek) - 50 points
 */
-uint Board::evaluate_points(Field player){
+uint Board::evaluate_points(Field player_color){
     int result{0};
 
     //count pawns
-    int pawn_number{player == Field::WHITE ? white_counter : black_counter};
+    int pawn_number{player_color == Field::WHITE ? white_counter : black_counter};
     result += pawn_number * cost_map.at(Advantage::PAWN);
 
-    //check twos
+    //check twos and threes
     int twos{0};
     for(auto row_col : rows_cols_to_check){
         int counter{0};
         for(int i = 0; i < 3; i++){
-            if(fields.at(row_col.at(i)) == player)
+            if(fields.at(row_col.at(i)) == player_color)
                 counter++;
         }
         if(counter == 2)
@@ -147,9 +148,6 @@ uint Board::evaluate_points(Field player){
         else if(counter == 3)
             result += cost_map.at(Advantage::THREE_IN_A_ROW);
     }
-
-    //check threes
-    //TODO
 
     return result;
 }
@@ -161,6 +159,18 @@ void Board::next_player(){
         current_player = Field::WHITE;
     else
         std::cout << "CRITICAL ERROR: current player cant be empty";
+}
+
+void Board::after_move_check_threes(Field player_color){
+    for(auto row_col : rows_cols_to_check){
+        int counter{0};
+        for(int i = 0; i < 3; i++){
+            if(fields.at(row_col.at(i)) == player_color)
+                counter++;
+        }
+        if(counter == 3)
+            is_it_time_to_take = true;
+    }
 }
 
 bool Board::check_index(int index){
@@ -205,9 +215,12 @@ void Board::place_pawn_after(Field color){
         black_counter++;
     maybe_advance_phase();
     next_player();
+    after_move_check_threes(color);
 }
 
-bool Board::place_pawn(int index, Field color){
+bool Board::place_pawn(int index){
+
+    Field color = current_player;
 
     if(not place_pawn_checks(index, color))
         return false;
@@ -239,7 +252,7 @@ bool Board::are_fields_connected(int first_field, int second_field){
     return result;
 }
 
-bool Board::make_move_checks(int start_index, int destination_index){
+bool Board::make_move_checks(int start_index, int destination_index, Field color){
     if(not check_index(start_index) or not check_index(destination_index)){
         std::cout << __func__ << " WARNING: one of indexes is wrong!\n";
         return false;
@@ -260,12 +273,15 @@ bool Board::make_move_checks(int start_index, int destination_index){
     return true;
 }
 
-void Board::make_move_after(){
+void Board::make_move_after(Field color){
     next_player();
+    after_move_check_threes(color);
 }
 
 bool Board::make_move(int start_index, int destination_index){
-    if(not make_move_checks(start_index, destination_index))
+    Field color = current_player;
+
+    if(not make_move_checks(start_index, destination_index, color))
         return false;
 
     //make move
@@ -274,8 +290,30 @@ bool Board::make_move(int start_index, int destination_index){
     fields.at(destination_index) = field;
 
 
-    make_move_after();
+    make_move_after(color);
     return true;
+}
+
+bool Board::take_pawn_checks(int index, Field color){
+    return false;
+}
+
+void Board::take_pawn_after(Field color){
+    is_it_time_to_take = false;
+
+    after_move_check_threes(color);
+}
+
+bool Board::take_pawn(int index){
+    Field color_of_taking_player = current_player;
+
+    take_pawn_checks(index, color_of_taking_player);
+
+    fields.at(index) = Field::EMPTY;
+
+    take_pawn_after(color_of_taking_player);
+
+    return false;
 }
 
 char get_fields_char(int index, const Board& board){

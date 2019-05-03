@@ -22,9 +22,9 @@ o-o-o   o-o-o
 o-----o-----W*/
 std::unique_ptr<Board> create_first_board(){
     auto b = std::make_unique<Board>();
-    b->place_pawn(0, Field::WHITE);
-    b->place_pawn(2, Field::BLACK);
-    b->place_pawn(23, Field::WHITE);
+    b->place_pawn(0);
+    b->place_pawn(2);
+    b->place_pawn(23);
     return std::move(b);
 }
 const int EXPECTED_WHITE_POINTS_FIRST_BOARD{cost_map.at(Advantage::PAWN) * 2};
@@ -50,8 +50,8 @@ const std::vector<int> black_indexes_second{0, 2, 6, 7, 10, 14, 16, 17, 22};
 std::unique_ptr<Board> create_second_board(){
     auto b = std::make_unique<Board>();
     for(int i = 0; i < white_indexes_second.size(); i++){
-        b->place_pawn(white_indexes_second.at(i), Field::WHITE);
-        b->place_pawn(black_indexes_second.at(i), Field::BLACK);
+        b->place_pawn(white_indexes_second.at(i));
+        b->place_pawn(black_indexes_second.at(i));
     }
     return std::move(b);
 }
@@ -79,8 +79,8 @@ const std::vector<int> black_indexes_third{0, 1, 2, 6, 7, 14, 16, 17, 20};
 std::unique_ptr<Board> create_third_board(){
     auto b = std::make_unique<Board>();
     for(int i = 0; i < white_indexes_third.size(); i++){
-        b->place_pawn(white_indexes_third.at(i), Field::WHITE);
-        b->place_pawn(black_indexes_third.at(i), Field::BLACK);
+        b->place_pawn(white_indexes_third.at(i));
+        b->place_pawn(black_indexes_third.at(i));
     }
     return std::move(b);
 }
@@ -91,23 +91,22 @@ const int EXPECTED_BLACK_POINTS_THIRD_BOARD{cost_map.at(Advantage::PAWN) * 9 +
                                             cost_map.at(Advantage::TWO_IN_A_ROW) * 4 +
                                             cost_map.at(Advantage::THREE_IN_A_ROW)};
 
-} // namespace
-
 TEST(BoardShouldEvaluate, FirstBoard){
-    auto b = e::create_first_board();
-    ASSERT_EQ(e::EXPECTED_WHITE_POINTS_FIRST_BOARD, b->evaluate_points(Field::WHITE));
-    ASSERT_EQ(e::EXPECTED_BLACK_POINTS_FIRST_BOARD, b->evaluate_points(Field::BLACK));
+    auto b = create_first_board();
+    ASSERT_EQ(EXPECTED_WHITE_POINTS_FIRST_BOARD, b->evaluate_points(Field::WHITE));
+    ASSERT_EQ(EXPECTED_BLACK_POINTS_FIRST_BOARD, b->evaluate_points(Field::BLACK));
 }
 
 TEST(BoardShouldEvaluate, SecondBoard){
-    auto b = e::create_second_board();
-    ASSERT_EQ(e::EXPECTED_WHITE_POINTS_SECOND_BOARD, b->evaluate_points(Field::WHITE));
-    ASSERT_EQ(e::EXPECTED_BLACK_POINTS_SECOND_BOARD, b->evaluate_points(Field::BLACK));
+    auto b = create_second_board();
+    ASSERT_EQ(EXPECTED_WHITE_POINTS_SECOND_BOARD, b->evaluate_points(Field::WHITE));
+    ASSERT_EQ(EXPECTED_BLACK_POINTS_SECOND_BOARD, b->evaluate_points(Field::BLACK));
 }
 
 TEST(BoardShouldEvaluate, ThirdBoard){
-    auto b = e::create_third_board();
-    std::cout << *b << '\n';
-    ASSERT_EQ(e::EXPECTED_WHITE_POINTS_THIRD_BOARD, b->evaluate_points(Field::WHITE));
-    ASSERT_EQ(e::EXPECTED_BLACK_POINTS_THIRD_BOARD, b->evaluate_points(Field::BLACK));
+    auto b = create_third_board();
+    ASSERT_EQ(EXPECTED_WHITE_POINTS_THIRD_BOARD, b->evaluate_points(Field::WHITE));
+    ASSERT_EQ(EXPECTED_BLACK_POINTS_THIRD_BOARD, b->evaluate_points(Field::BLACK));
 }
+
+} // namespace

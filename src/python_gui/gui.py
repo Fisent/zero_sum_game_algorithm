@@ -77,3 +77,4 @@ def show_window(fields, phase):
         buttons.append(create_button(fields[i], FIELDS_POSITIONS[i], win, callback, i))
 
     tk.mainloop()
+    return 'ahoj'

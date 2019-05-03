@@ -56,9 +56,11 @@ public:
     // (size of returned vector is 0 if field at field_index is empty)
     std::vector<int> get_possible_moves(int field_index) const;
     // first phase
-    bool place_pawn(int index, Field color);
+    bool place_pawn(int index);
     // second phase
     bool make_move(int start_index, int destination_index);
+
+    bool take_pawn(int index);
     uint evaluate_points(Field player);
 
 private:
@@ -67,10 +69,13 @@ private:
     bool place_pawn_checks(int index, Field color);
     void place_pawn_after(Field color);
     bool are_fields_connected(int first_index, int second_index);
-    bool make_move_checks(int start_index, int destination_index);
-    void make_move_after();
+    bool make_move_checks(int start_index, int destination_index, Field color);
+    void make_move_after(Field color);
+    bool take_pawn_checks(int index, Field color);
+    void take_pawn_after(Field color);
     void maybe_advance_phase();
     void evaluate_scores();
+    void after_move_check_threes(Field color);
 
     std::vector<Field> fields;
     std::vector<Edge> edges;
@@ -78,6 +83,7 @@ private:
     int white_counter;
     int black_counter;
     Field current_player;
+    bool is_it_time_to_take;
 };
 
 std::string getFieldName(Field field);
