@@ -2,5 +2,8 @@ TODO list:
 1. Board implementation
     a. finish evaluation function implementation - DONE
     b. add third phase implementation
-    c. implement putting off the board enemy pawn after three in a row
+    c. implement putting off the board enemy pawn after three in a row - DONE
+2. Game class implementation
+    a. controling the game
+    b. communication with human, random, or ai player
 2. Simple AI implementation
