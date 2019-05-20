@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Player.hpp"
+#include "Move.hpp"
 
 class HumanPlayer : public Player{
 public:
-    void move(Board& board) override{
-
+    Move move(Board& board) override{
+        return Move{0, 0};
     }
 };

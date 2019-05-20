@@ -36,7 +36,7 @@ TEST(BoardStateMachineShould, notMakeRegularMoveWhenItsTimeToTake){
     auto b = create_second_board();
 
     b->place_pawn(22);
-    ASSERT_TRUE(b->place_pawn(0));
+    ASSERT_FALSE(b->place_pawn(0));
 }
 
 TEST(BoardStateMachineShould, notTakeWhenItsTimeForNormalMove){

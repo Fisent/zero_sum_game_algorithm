@@ -8,6 +8,9 @@
 int main(){
     Board b;
     b.place_pawn(0);
+    b.place_pawn(1);
     auto fields = b.get_fields_for_gui();
-    xml_rpc(fields, static_cast<int>(b.get_phase()));
+    auto phase = b.get_phase();
+    std::cout << "phase: " << phase_to_int(phase) << '\n';
+    xml_rpc(fields, phase_to_int(b.get_phase()));
 }

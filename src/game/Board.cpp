@@ -179,8 +179,13 @@ bool Board::check_index(int index){
 }
 
 bool Board::place_pawn_checks(int index, Field color){
+    if(phase != GamePhase::FIRST_PHASE){
+        std::cout << __func__ << " WARNING: it is not first phase\n";
+        return false;
+    }
     if(is_it_time_to_take){
         std::cout << __func__ << " WARNING: it is time to take, not place pawn\n";
+        return false;
     }
     if(color == Field::EMPTY){
         std::cout << __func__ << "WARNING: cannot place empty pawn!\n";

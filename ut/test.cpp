@@ -7,6 +7,7 @@
 #include "EdgeTests.hpp"
 #include "BoardEvaluationTests.hpp"
 #include "BoardStateMachineTests.hpp"
+#include "BoardThirdPhaseTests.hpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

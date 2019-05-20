@@ -67,11 +67,14 @@ def create_button(field, position, win, callback, number):
     
 
 def show_window(fields, phase):
+    print('Phase ' + str(phase))
     buttons = []
 
     win = tk.Tk()
 
     win.title = "Nine men's morris"
+
+    CURRENT_PHASE = phase
 
     for i in range(24):
         buttons.append(create_button(fields[i], FIELDS_POSITIONS[i], win, callback, i))

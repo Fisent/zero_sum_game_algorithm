@@ -7,12 +7,24 @@
 #include <map>
 
 #include "Edge.hpp"
+#include "Move.hpp"
 
 enum class GamePhase{
     FIRST_PHASE,
     SECOND_PHASE,
     THIRD_PHASE
 };
+
+inline int phase_to_int(GamePhase phase){
+    if(phase == GamePhase::FIRST_PHASE)
+        return 1;
+    else if(phase == GamePhase::SECOND_PHASE)
+        return 2;
+    else if(phase == GamePhase::THIRD_PHASE)
+        return 3;
+    std::cout << "Cos sie, cos sie posulo\n";
+    return -1; 
+}
 
 enum class Field{
     EMPTY,
@@ -26,14 +38,6 @@ enum class Advantage{
     THREE_IN_A_ROW
 };
 
-struct Move{
-    Move(int first_field, int second_field, Field field_color):
-        first_field(first_field), second_field(second_field), field_color(field_color){}
-
-    int first_field;
-    int second_field;
-    Field field_color;
-};
 
 const int NUMBER_OF_FIELDS{24};
 
@@ -63,7 +67,7 @@ public:
     bool take_pawn(int index);
     uint evaluate_points(Field player);
 
-private:
+protected:
     bool check_index(int index);
     void next_player();
     bool place_pawn_checks(int index, Field color);

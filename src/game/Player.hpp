@@ -1,9 +1,10 @@
 #pragma once
 
-//forward declaration
+#include "Move.hpp"
+
 class Board;
 
 class Player{
 public:
-    virtual void move(Board& board) = 0;
+    virtual Move move(Board& board) = 0;
 };

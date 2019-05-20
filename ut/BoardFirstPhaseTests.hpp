@@ -50,3 +50,10 @@ TEST(BoardPhase1Should, notGoToNextPhasePrematurely){
     }
     ASSERT_EQ(b.get_phase(), GamePhase::FIRST_PHASE);
 }
+
+TEST(BoardPhase1Should, notMakePhase2Move){
+    Board b;
+    b.place_pawn(0);
+    b.place_pawn(22);
+    ASSERT_FALSE(b.make_move(0, 0));
+}

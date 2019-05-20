@@ -71,22 +71,22 @@ std::unique_ptr<Board> expectedBoardAfterPossibleMoves(){
 
 } // namespace
 
-TEST(BoardShould, advancePhase){
+TEST(BoardPhase2Should, advancePhase){
     auto b = createSecondPhaseBoard();
     ASSERT_EQ(b->get_phase(), GamePhase::SECOND_PHASE);
 }
 
-TEST(BoardShould, notMakeMoveFromEmptyField){
+TEST(BoardPhase2Should, notMakeMoveFromEmptyField){
     auto b = createSecondPhaseBoard();
     ASSERT_FALSE(b->make_move(1, 2));
 }
 
-TEST(BoardShould, notMakeMoveToOccupiedField){
+TEST(BoardPhase2Should, notMakeMoveToOccupiedField){
     auto b = createSecondPhaseBoard();
     ASSERT_FALSE(b->make_move(0, 9));
 }
 
-TEST(BoardShould, make_possible_moves){
+TEST(BoardPhase2Should, make_possible_moves){
     auto b = createSecondPhaseBoard();
     for(auto move : possible_moves){
         ASSERT_TRUE(b->make_move(move.first, move.second));
@@ -148,5 +148,11 @@ TEST(BoardPhase2Should, getEdgesWithPossibleMovesForFields){
 TEST(BoardPhase2Should, notMakeMoveBeetweenNotConnectedFields){
     auto b = createSecondPhaseBoard();
 
-    ASSERT_FALSE(b->make_move(0, 3));
+    ASSERT_FALSE(b->make_move(4, 11));
+}
+
+TEST(BoardPhase2Should, notMakeMoveWithTheSameStartAndDestinationIndex){
+    auto b = createSecondPhaseBoard();
+
+    ASSERT_FALSE(b->make_move(4, 4));
 }
