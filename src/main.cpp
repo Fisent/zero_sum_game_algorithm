@@ -7,6 +7,7 @@
 
 int main(){
     Board b;
+    b.phase = GamePhase::SECOND_PHASE;
     b.place_pawn(0);
     b.place_pawn(1);
     auto fields = b.get_fields_for_gui();

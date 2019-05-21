@@ -20,6 +20,8 @@ W-B o   W-W-B
 W-----B-----W
 '''
 
+WIN = None
+
 # 0, 1, or 2
 CURRENT_PHASE = 0
 
@@ -33,19 +35,37 @@ FIELDS_POSITIONS = [
     (12, 0), (12, 6), (12, 12)
 ]
 
+pressed_field = -1
+pressed_field_2 = -1
+
 def first_phase_callback(number):
+    print('first_phase_callback')
+    global pressed_field
+    pressed_field = number
+    WIN.destroy()
     print('first_phase_callback ' + str(number))
 
 def second_third_phase_callback(number):
+    global pressed_field
+    global pressed_field_2
+    print('second_third_phase_callback')
+
+    if pressed_field is -1:
+        pressed_field = number
+    else:
+        pressed_field_2 = number
+        WIN.destroy()
     print('second_third_phase_callback ' + str(number))
 
 def callback(number):
+    global CURRENT_PHASE
+    print('Callback, phase: ' + str(CURRENT_PHASE))
     if CURRENT_PHASE == 0:
         first_phase_callback(number)
     elif CURRENT_PHASE == 1 or CURRENT_PHASE == 2:
         second_third_phase_callback(number)
     else:
-        print('CRITICAL ERROR, PHASE NOT 0, 1 or 2')
+        print('CRITICAL ERROR, PHASE NOT 0, 1 or 2, phase: ' + str(CURRENT_PHASE))
 
 def create_button(field, position, win, callback, number):
     text = ''
@@ -70,14 +90,23 @@ def show_window(fields, phase):
     print('Phase ' + str(phase))
     buttons = []
 
-    win = tk.Tk()
+    global WIN
+    print('Creating WIN')
+    WIN = tk.Tk()
 
-    win.title = "Nine men's morris"
+    WIN.title = "Nine men's morris"
 
-    CURRENT_PHASE = phase
+    global CURRENT_PHASE
+    CURRENT_PHASE = int(phase)
 
     for i in range(24):
-        buttons.append(create_button(fields[i], FIELDS_POSITIONS[i], win, callback, i))
+        buttons.append(create_button(fields[i], FIELDS_POSITIONS[i], WIN, callback, i))
 
     tk.mainloop()
-    return 'ahoj'
+
+    out = str(pressed_field)
+    if pressed_field_2 is not -1:
+        out += ',' + str(pressed_field_2)
+
+    print(out)
+    return out

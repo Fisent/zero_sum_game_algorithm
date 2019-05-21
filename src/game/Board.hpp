@@ -67,7 +67,7 @@ public:
     bool take_pawn(int index);
     uint evaluate_points(Field player);
 
-protected:
+// protected:
     bool check_index(int index);
     void next_player();
     bool place_pawn_checks(int index, Field color);
