@@ -6,5 +6,5 @@ class Board;
 
 class Player{
 public:
-    virtual Move move(Board& board) = 0;
+    virtual Move move(std::shared_ptr<Board>& board) = 0;
 };

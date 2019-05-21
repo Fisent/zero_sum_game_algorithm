@@ -48,7 +48,7 @@ def first_phase_callback(number):
 def second_third_phase_callback(number):
     global pressed_field
     global pressed_field_2
-    print('second_third_phase_callback')
+    print('second_third_phase_callback ' + str(number))
 
     if pressed_field is -1:
         pressed_field = number
@@ -90,8 +90,12 @@ def show_window(fields, phase):
     print('Phase ' + str(phase))
     buttons = []
 
+    global pressed_field
+    global pressed_field_2
+    pressed_field = -1
+    pressed_field_2 = -1
+
     global WIN
-    print('Creating WIN')
     WIN = tk.Tk()
 
     WIN.title = "Nine men's morris"

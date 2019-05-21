@@ -1,4 +1,5 @@
 #pragma once
+
 /*
     During the game there can be three kind of moves:
         place_pawn(pawn_index, player_color)
@@ -8,6 +9,7 @@
 */
 
 struct Move{
+    Move(int index): first_index{index}, second_index{-1}{}
     Move(int first_ind, int second_ind): first_index{first_ind}, second_index{second_ind}{}
     int first_index;
     int second_index;

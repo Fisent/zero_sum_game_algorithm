@@ -283,6 +283,10 @@ bool Board::make_move_checks(int start_index, int destination_index, Field color
         std::cout << __func__ << " WARNING: move not made, because fields are not connected\n";
         return false;
     }
+    if(fields.at(start_index) != current_player){
+        std::cout << __func__ << "WARNING: move not made, because pawn at start_index doesn't belong to current_player\n";
+        return false;
+    }
 
     return true;
 }

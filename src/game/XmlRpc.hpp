@@ -11,6 +11,6 @@
 
 std::string fields_to_string(const std::vector<int>& fields);
 
-Move ask_player_about_move();
+Move ask_player_about_move(std::vector<int> fields, int phase);
 
-void xml_rpc(std::vector<int> fields, int phase);
+// void xml_rpc(std::vector<int> fields, int phase);

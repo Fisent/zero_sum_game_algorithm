@@ -9,19 +9,20 @@
 #include "Edge.hpp"
 #include "Move.hpp"
 
+
 enum class GamePhase{
-    FIRST_PHASE,
-    SECOND_PHASE,
-    THIRD_PHASE
+    FIRST_PHASE = 0,
+    SECOND_PHASE = 1,
+    THIRD_PHASE = 2
 };
 
 inline int phase_to_int(GamePhase phase){
     if(phase == GamePhase::FIRST_PHASE)
-        return 1;
+        return 0;
     else if(phase == GamePhase::SECOND_PHASE)
-        return 2;
+        return 1;
     else if(phase == GamePhase::THIRD_PHASE)
-        return 3;
+        return 2;
     std::cout << "Cos sie, cos sie posulo\n";
     return -1; 
 }
