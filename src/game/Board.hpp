@@ -68,6 +68,8 @@ public:
     bool take_pawn(int index);
     uint evaluate_points(Field player);
 
+    bool is_it_time_to_take();
+
 // protected:
     bool check_index(int index);
     void next_player();
@@ -88,7 +90,7 @@ public:
     int white_counter;
     int black_counter;
     Field current_player;
-    bool is_it_time_to_take;
+    bool time_to_take;
 };
 
 std::string getFieldName(Field field);

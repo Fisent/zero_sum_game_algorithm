@@ -74,7 +74,7 @@ Board::Board(): phase{GamePhase::FIRST_PHASE},
                 black_counter{0},
                 current_player{Field::WHITE},
                 edges(all_edges),
-                is_it_time_to_take{false}
+                time_to_take{false}
 {
     for(int i = 0; i < NUMBER_OF_FIELDS; i++){
         fields.push_back(Field::EMPTY);
@@ -169,7 +169,7 @@ void Board::after_move_check_threes(Field player_color){
                 counter++;
         }
         if(counter == 3){
-            is_it_time_to_take = true;
+            time_to_take = true;
         }
     }
 }
@@ -183,7 +183,7 @@ bool Board::place_pawn_checks(int index, Field color){
         std::cout << __func__ << " WARNING: it is not first phase\n";
         return false;
     }
-    if(is_it_time_to_take){
+    if(time_to_take){
         std::cout << __func__ << " WARNING: it is time to take, not place pawn\n";
         return false;
     }
@@ -262,7 +262,7 @@ bool Board::are_fields_connected(int first_field, int second_field){
 }
 
 bool Board::make_move_checks(int start_index, int destination_index, Field color){
-    if(is_it_time_to_take){
+    if(time_to_take){
         std::cout << __func__ << " WARNING: it is time to take, not for normal move\n";
         return false;
     }
@@ -313,7 +313,7 @@ bool Board::make_move(int start_index, int destination_index){
 }
 
 bool Board::take_pawn_checks(int index, Field color){
-    if(not is_it_time_to_take){
+    if(not time_to_take){
         std::cout << __func__ << " WARNING: it isn't time to take\n";
         return false;
     }
@@ -337,7 +337,7 @@ bool Board::take_pawn_checks(int index, Field color){
 }
 
 void Board::take_pawn_after(Field color){
-    is_it_time_to_take = false;
+    time_to_take = false;
 
     after_move_check_threes(color);
 }
@@ -354,6 +354,10 @@ bool Board::take_pawn(int index){
     take_pawn_after(color_of_taking_player);
 
     return true;
+}
+
+bool Board::is_it_time_to_take(){
+    return time_to_take;
 }
 
 char get_fields_char(int index, const Board& board){

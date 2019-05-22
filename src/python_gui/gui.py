@@ -37,6 +37,7 @@ FIELDS_POSITIONS = [
 
 pressed_field = -1
 pressed_field_2 = -1
+time_to_take = False
 
 def first_phase_callback(number):
     print('first_phase_callback')
@@ -55,7 +56,12 @@ def second_third_phase_callback(number):
     else:
         pressed_field_2 = number
         WIN.destroy()
-    print('second_third_phase_callback ' + str(number))
+
+def take_callback(number):
+    global pressed_field
+    print('take_callback')
+
+    pressed_field = number
 
 def callback(number):
     global CURRENT_PHASE
@@ -86,14 +92,16 @@ def create_button(field, position, win, callback, number):
     return tk.Button(win, text=text, bg=color, command=lambda: callback(number)).grid(row=position[0], column=position[1], padx=15, pady=15)
     
 
-def show_window(fields, phase):
+def show_window(fields, phase, time_to_take_arg):
     print('Phase ' + str(phase))
     buttons = []
 
     global pressed_field
     global pressed_field_2
+    global time_to_take
     pressed_field = -1
     pressed_field_2 = -1
+    time_to_take = time_to_take_arg == 'yes'
 
     global WIN
     WIN = tk.Tk()

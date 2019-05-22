@@ -18,7 +18,7 @@ std::string phase_to_string(int phase){
     return ss.str();
 }
 
-Move ask_player_about_move(std::vector<int> fields, int phase){
+Move ask_player_about_move(std::vector<int> fields, int phase, bool time_to_take){
     
     const std::string serverUrl("http://localhost:8000/RPC2");
 
@@ -29,7 +29,8 @@ Move ask_player_about_move(std::vector<int> fields, int phase){
     std::cout << "Calling python with phase " << phase << '\n';
 
     std::string encoded_fields = fields_to_string(fields);
-    myClient.call(serverUrl, "show_window", "ss" ,&result, encoded_fields.c_str(), phase_to_string(phase).c_str());
+    std::string time_to_take_str = time_to_take ? "yes" : "";
+    myClient.call(serverUrl, "show_window", "ss" ,&result, encoded_fields.c_str(), phase_to_string(phase).c_str(), time_to_take);
 
     std::string re = xmlrpc_c::value_string(result);
 
@@ -45,15 +46,15 @@ Move ask_player_about_move(std::vector<int> fields, int phase){
 
 
     if(phase == 0)
-        return Move{boost::lexical_cast<int>(re)};
+        return Move{boost::lexical_cast<int>(re), time_to_take};
     else if(phase == 1 or phase == 2){
         std::vector<std::string> results;
         boost::split(results, re, [](char c){return c == ',';});
         
-        return Move{boost::lexical_cast<int>(results.at(0)), boost::lexical_cast<int>(results.at(1))};
+        return Move{boost::lexical_cast<int>(results.at(0)), boost::lexical_cast<int>(results.at(1)), time_to_take};
     }
     else
-        return Move{-3, -3};
+        return Move{-3, -3, false};
 }
 
 // void xml_rpc(std::vector<int> fields, int phase){
